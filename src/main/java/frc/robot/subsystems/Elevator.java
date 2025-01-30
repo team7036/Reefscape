@@ -10,6 +10,7 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.testing.TestingMappings;
 
 public class Elevator extends SubsystemBase {
 
@@ -19,8 +20,9 @@ public class Elevator extends SubsystemBase {
     private final PIDController elevatorPID;
 
 
-    public Elevator() {
-        elevatorMotor = new SparkMax(Constants.Elevator.motorCanId , SparkLowLevel.MotorType.kBrushless);
+    public Elevator(TestingMappings mappings) {
+        int elevatorMotorCanId = mappings.getMapping(Constants.Elevator.motorCanId);
+        elevatorMotor = new SparkMax(elevatorMotorCanId , SparkLowLevel.MotorType.kBrushless);
         elevatorEncoder = elevatorMotor.getEncoder();
         elevatorPID = new PIDController(Constants.Elevator.kP, Constants.Elevator.kI, Constants.Elevator.kD);
         elevatorFeedForward = new ElevatorFeedforward(Constants.Elevator.kS, Constants.Elevator.kG, Constants.Elevator.kV);

@@ -30,10 +30,15 @@ public final class Constants {
     public static double kV = 0.0;
     public static int motorCanId = 50;
   }
+  public static class TestMotorControllers {
+    public static int testSparkMax1 = 51;
+    public static int testSparkMax2 = 52;
+  }
 
   public static class Drivetrain {
     public static class Movement {
       public static double kWheelRadius = 0.102;
+      
       public static double kDriveGearRatio = 6.75;
       public static double kSlewRateLimitX = 3.0;
       public static double kSlewRateLimitY = 3.0;

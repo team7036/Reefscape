@@ -7,17 +7,18 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.elevator.SetElevatorHeightCommand;
 import frc.robot.subsystems.Elevator;
+import frc.robot.testing.TestingMappings;
 
 public class TestContainer {
 
   private final CommandXboxController driverController = new CommandXboxController(Constants.Controllers.kDriverPort);
-  public static final Elevator elevatorSubsystem = new Elevator();
+  private static final TestingMappings elevatorTestingMappings = new TestingMappings.MappingsBuilder(false).addMapping(Constants.Elevator.motorCanId, Constants.TestMotorControllers.testSparkMax1).build();
+  public static final Elevator elevatorSubsystem = new Elevator(elevatorTestingMappings);
 
-  public TestContainer() {
-
+  public TestContainer() {}
+  public void runTest() {
     elevatorSubsystem.setDefaultCommand(
       new SetElevatorHeightCommand(elevatorSubsystem, 0)
     );
-    
   }
 }

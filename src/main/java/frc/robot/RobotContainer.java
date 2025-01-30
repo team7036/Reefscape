@@ -9,12 +9,13 @@ import frc.robot.commands.drivetrain.DrivetrainDefaultCommand;
 import frc.robot.commands.elevator.SetElevatorHeightCommand;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.drivetrain.Drivetrain;
+import frc.robot.testing.TestingMappings;
 
 public class RobotContainer {
 
   private final CommandXboxController driverController = new CommandXboxController(Constants.Controllers.kDriverPort);
   public static final Drivetrain drivetrainSubsystem = new Drivetrain();
-  public static final Elevator elevatorSubsystem = new Elevator();
+  public static final Elevator elevatorSubsystem = new Elevator(TestingMappings.DEFAULT);
 
   public RobotContainer() {
 

@@ -17,7 +17,7 @@ public class Robot extends TimedRobot {
   private Command autonomousCommand;
 
   private final RobotContainer robotContainer;
-  private final TestContainer testContainer;
+  private TestContainer testContainer;
 
 
   /**
@@ -63,6 +63,7 @@ public class Robot extends TimedRobot {
   @Override
   public void testInit() {
     CommandScheduler.getInstance().cancelAll();
+    testContainer.runTest();
   }
 
   /** This function is called periodically during test mode. */
