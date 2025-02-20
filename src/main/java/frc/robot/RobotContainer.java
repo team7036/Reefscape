@@ -4,18 +4,17 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.drivetrain.DrivetrainDefaultCommand;
-import frc.robot.commands.elevator.SetElevatorHeightCommand;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.drivetrain.Drivetrain;
-import frc.robot.testing.TestingMappings;
 
 public class RobotContainer {
 
   private final CommandXboxController driverController = new CommandXboxController(Constants.Controllers.kDriverPort);
-  public static final Drivetrain drivetrainSubsystem = new Drivetrain();
-  public static final Elevator elevatorSubsystem = new Elevator(TestingMappings.DEFAULT);
+  public static final Drivetrain drivetrainSubsystem = new Drivetrain(true);
+  public static final Elevator elevatorSubsystem = new Elevator();
 
   public RobotContainer() {
 
@@ -28,11 +27,21 @@ public class RobotContainer {
       )
     );
 
-    elevatorSubsystem.setDefaultCommand(
-      new SetElevatorHeightCommand(elevatorSubsystem, 0)
-    );
+    elevatorSubsystem.setDefaultCommand( elevatorSubsystem.setHeightCommand( Constants.Elevator.Heights.defaultHeight ) );
 
-
+    setupDashboard();
     
   }
+
+  void setupDashboard(){
+    SmartDashboard.putData("drivetrain", drivetrainSubsystem);
+    SmartDashboard.putData("elevator", elevatorSubsystem);
+    SmartDashboard.putData("elevator/stop", elevatorSubsystem.stopCommand());
+    SmartDashboard.putData("elevator/reset", elevatorSubsystem.resetZeroHeightCommand());
+    SmartDashboard.putData("elevator/L1", elevatorSubsystem.setHeightCommand(Constants.Elevator.Heights.ReefL1));
+    SmartDashboard.putData("elevator/L2", elevatorSubsystem.setHeightCommand(Constants.Elevator.Heights.ReefL2));
+    SmartDashboard.putData("elevator/L3", elevatorSubsystem.setHeightCommand(Constants.Elevator.Heights.ReefL3));
+    SmartDashboard.putData("elevator/L4", elevatorSubsystem.setHeightCommand(Constants.Elevator.Heights.ReefL4));
+  }
+
 }

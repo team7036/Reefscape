@@ -18,17 +18,33 @@ public final class Constants {
     public static final int kDriverPort = 0;
   }
   public static class Elevator {
-    //For PID
-    public static double kP = 0.0;
+    // CAN ID
+    public static int motorCanId = 40;
+    // Feed Foward
+    public static double kS = 0;
+    public static double kG = 0.24;
+    public static double kV = 25;
+    public static double kA = 0;
+    // PID
+    public static double kP = 0;
     public static int kI = 0;
     public static double kD = 0.0;
     //For startup or shutdown to reset elevator height to all the way done
-    public static double minHeight = 0.0;
-    //For Feed Foward
-    public static double kS = 0.0;
-    public static double kG = 0.0;
-    public static double kV = 0.0;
-    public static int motorCanId = 50;
+    public static final double maxAcceleration = 0.3;
+    public static final double maxVelocity = 0.3;
+    // Convert raw encoder value to meters
+    public static double conversion = 5.27e-3;
+
+    public static class Heights {
+      // Target Heights
+      public static double intaking = 0.3;
+      public static double CoralStation = 0.18;
+      public static double ReefL4 = 1.5;
+      public static double ReefL3 = 0.95;
+      public static double ReefL2 = 0.66;
+      public static double ReefL1 = 0.55;
+      public static double defaultHeight = intaking;
+    }
   }
   public static class TestMotorControllers {
     public static int testSparkMax1 = 51;
