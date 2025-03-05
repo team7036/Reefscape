@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.sim.SparkMaxSim;
 import com.revrobotics.spark.SparkLimitSwitch;
 import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.SparkMax;
