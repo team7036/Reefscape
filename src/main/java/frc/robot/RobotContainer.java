@@ -28,7 +28,7 @@ public class RobotContainer {
       )
     );
 
-    elevatorSubsystem.setDefaultCommand( elevatorSubsystem.setHeightCommand( Constants.Elevator.Heights.defaultHeight ) );
+    elevatorSubsystem.setDefaultCommand( elevatorSubsystem.setHeightCommand( Constants.Elevator.Heights.kIntaking ) );
 
     setupDashboard();
     

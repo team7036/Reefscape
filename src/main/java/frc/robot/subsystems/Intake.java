@@ -17,9 +17,9 @@ public class Intake extends SubsystemBase {
     private final SparkLimitSwitch algaeSensor;
 
     public Intake() {
-        coralMotor = new SparkMax(Constants.Intake.coralMotorCANId, SparkLowLevel.MotorType.kBrushless);
+        coralMotor = new SparkMax(Constants.Intake.kCoralIntakeMotorCANID, SparkLowLevel.MotorType.kBrushless);
         coralSensor = coralMotor.getForwardLimitSwitch();
-        algaeMotor = new SparkMax(Constants.Intake.algaeMotorCANId, SparkLowLevel.MotorType.kBrushless);
+        algaeMotor = new SparkMax(Constants.Intake.kAlgaeMotorCANId, SparkLowLevel.MotorType.kBrushless);
         algaeSensor = algaeMotor.getForwardLimitSwitch();
         this.setDefaultCommand(this.stopCoralCommand());
         setupDashboard();
