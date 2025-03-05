@@ -32,7 +32,7 @@ public class Elevator extends SubsystemBase {
 
     public Elevator() {
         motor = new SparkMax(
-            Constants.Elevator.motorCanId, 
+            Constants.Elevator.kMotorCANId, 
             SparkLowLevel.MotorType.kBrushless
         );
         configureMotor();
@@ -42,8 +42,8 @@ public class Elevator extends SubsystemBase {
             Constants.Elevator.kI, 
             Constants.Elevator.kD, 
             new TrapezoidProfile.Constraints(
-                Constants.Elevator.maxVelocity, 
-                Constants.Elevator.maxAcceleration
+                Constants.Elevator.kMaxVelocity, 
+                Constants.Elevator.kMaxAcceleration
             )
         );
         feedforward = new ElevatorFeedforward(
@@ -73,10 +73,10 @@ public class Elevator extends SubsystemBase {
         SmartDashboard.putData("elevator/reset", this.resetZeroHeightCommand());
         SmartDashboard.putData("elevator/lower", run(()->motor.set(-0.5)));
 
-        SmartDashboard.putData("elevator/L1", this.setHeightCommand(Constants.Elevator.Heights.ReefL1));
-        SmartDashboard.putData("elevator/L2", this.setHeightCommand(Constants.Elevator.Heights.ReefL2));
-        SmartDashboard.putData("elevator/L3", this.setHeightCommand(Constants.Elevator.Heights.ReefL3));
-        SmartDashboard.putData("elevator/L4", this.setHeightCommand(Constants.Elevator.Heights.ReefL4));
+        SmartDashboard.putData("elevator/L1", this.setHeightCommand(Constants.Elevator.Heights.kL1));
+        SmartDashboard.putData("elevator/L2", this.setHeightCommand(Constants.Elevator.Heights.kL2));
+        SmartDashboard.putData("elevator/L3", this.setHeightCommand(Constants.Elevator.Heights.kL3));
+        SmartDashboard.putData("elevator/L4", this.setHeightCommand(Constants.Elevator.Heights.kL4));
     }
 
     public Command setHeightCommand( double height ){

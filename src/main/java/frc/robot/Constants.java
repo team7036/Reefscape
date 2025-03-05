@@ -18,14 +18,14 @@ public final class Constants {
     public static final int kDriverPort = 0;
   }
   public static class Intake {
-    public static int coralMotorCANId = 55;
-    public static double coralIntakeSpeed = 0.1;
-    public static double coralDeliverySpeed = 1.0;
-    public static int algaeMotorCANId = 30;
+    public static int kCoralIntakeMotorCANID = 55;
+    public static double kCoralIntakeSpeed = 0.1;
+    public static double kCoralDeliverySpeed = 1.0;
+    public static int kAlgaeMotorCANId = 30;
   }
   public static class Elevator {
     // CAN ID
-    public static int motorCanId = 60;
+    public static int kMotorCANId = 60;
     // Feed Foward
     public static double kS = 0;
     public static double kG = 0.24;
@@ -36,20 +36,19 @@ public final class Constants {
     public static int kI = 0;
     public static double kD = 0.0;
     //For startup or shutdown to reset elevator height to all the way done
-    public static final double maxAcceleration = 2.0;
-    public static final double maxVelocity = 2;
+    public static final double kMaxAcceleration = 2.0;
+    public static final double kMaxVelocity = 2;
     // Convert raw encoder value to meters
     public static double conversion = 5.27e-3;
 
     public static class Heights {
       // Target Heights
-      public static double intaking = 0.3;
-      public static double CoralStation = 0.18;
-      public static double ReefL4 = 1.49;
-      public static double ReefL3 = 0.95;
-      public static double ReefL2 = 0.67;
-      public static double ReefL1 = 0.5;
-      public static double defaultHeight = intaking;
+      public static double kIntaking = 0.3;
+      public static double kCoralStation = 0.18;
+      public static double kL4 = 1.49;
+      public static double kL3 = 0.95;
+      public static double kL2 = 0.67;
+      public static double kL1 = 0.5;
     }
   }
   public static class TestMotorControllers {
