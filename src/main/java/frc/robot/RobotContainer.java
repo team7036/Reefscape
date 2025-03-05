@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.drivetrain.DrivetrainDefaultCommand;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 
 public class RobotContainer {
@@ -15,7 +16,7 @@ public class RobotContainer {
   private final CommandXboxController driverController = new CommandXboxController(Constants.Controllers.kDriverPort);
   public static final Drivetrain drivetrainSubsystem = new Drivetrain(true);
   public static final Elevator elevatorSubsystem = new Elevator();
-
+  public static final Intake intakeSubystem = new Intake();
   public RobotContainer() {
 
     drivetrainSubsystem.setDefaultCommand(
@@ -36,12 +37,7 @@ public class RobotContainer {
   void setupDashboard(){
     SmartDashboard.putData("drivetrain", drivetrainSubsystem);
     SmartDashboard.putData("elevator", elevatorSubsystem);
-    SmartDashboard.putData("elevator/stop", elevatorSubsystem.stopCommand());
-    SmartDashboard.putData("elevator/reset", elevatorSubsystem.resetZeroHeightCommand());
-    SmartDashboard.putData("elevator/L1", elevatorSubsystem.setHeightCommand(Constants.Elevator.Heights.ReefL1));
-    SmartDashboard.putData("elevator/L2", elevatorSubsystem.setHeightCommand(Constants.Elevator.Heights.ReefL2));
-    SmartDashboard.putData("elevator/L3", elevatorSubsystem.setHeightCommand(Constants.Elevator.Heights.ReefL3));
-    SmartDashboard.putData("elevator/L4", elevatorSubsystem.setHeightCommand(Constants.Elevator.Heights.ReefL4));
+    SmartDashboard.putData("intake", intakeSubystem);
   }
 
 }

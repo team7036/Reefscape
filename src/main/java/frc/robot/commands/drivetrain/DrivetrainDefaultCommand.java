@@ -10,8 +10,8 @@ import frc.robot.Constants.Drivetrain.Movement;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 
 public class DrivetrainDefaultCommand extends Command {
-  
-private Drivetrain drive;
+
+  private Drivetrain drive;
 
   ChassisSpeeds speeds = new ChassisSpeeds();
 
@@ -24,7 +24,8 @@ private Drivetrain drive;
   SlewRateLimiter rotSpeedLimiter = new SlewRateLimiter(Movement.kSlewRateLimitRot);
 
   /** Creates a new DrivetrainDefaultCommand. */
-  public DrivetrainDefaultCommand(Drivetrain _drivetrain, DoubleSupplier _leftX, DoubleSupplier _leftY, DoubleSupplier _rightX) {
+  public DrivetrainDefaultCommand(Drivetrain _drivetrain, DoubleSupplier _leftX, DoubleSupplier _leftY,
+      DoubleSupplier _rightX) {
     drive = _drivetrain;
     leftXSupplier = _leftX;
     leftYSupplier = _leftY;
@@ -36,10 +37,13 @@ private Drivetrain drive;
   @Override
   public void execute() {
 
-    double xSpeed = Movement.kMaxSpeed * xSpeedLimiter.calculate( MathUtil.applyDeadband( leftXSupplier.getAsDouble(), 0.04 ) );
-    double ySpeed = Movement.kMaxSpeed * -ySpeedLimiter.calculate( MathUtil.applyDeadband( leftYSupplier.getAsDouble(), 0.04 ) );
-    double rot = Movement.kMaxRotation * -rotSpeedLimiter.calculate(MathUtil.applyDeadband( rightXSupplier.getAsDouble(), 0.04 ));
-    drive.setSpeeds( new ChassisSpeeds(xSpeed, ySpeed, rot) );
-    
+    double xSpeed = Movement.kMaxSpeed
+        * xSpeedLimiter.calculate(MathUtil.applyDeadband(leftXSupplier.getAsDouble(), 0.04));
+    double ySpeed = Movement.kMaxSpeed
+        * -ySpeedLimiter.calculate(MathUtil.applyDeadband(leftYSupplier.getAsDouble(), 0.04));
+    double rot = Movement.kMaxRotation
+        * -rotSpeedLimiter.calculate(MathUtil.applyDeadband(rightXSupplier.getAsDouble(), 0.04));
+    drive.setSpeeds(new ChassisSpeeds(xSpeed, ySpeed, rot));
+
   }
 }
