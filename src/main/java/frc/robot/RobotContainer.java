@@ -10,26 +10,31 @@ import frc.robot.commands.drivetrain.DrivetrainDefaultCommand;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.drivetrain.Drivetrain;
+import frc.robot.util.XboxControllerBindings;
 
 public class RobotContainer {
 
   private final CommandXboxController driverController = new CommandXboxController(Constants.Controllers.kDriverPort);
+  private final XboxControllerBindings bindings = new XboxControllerBindings(driverController.getHID());
   public static final Drivetrain drivetrainSubsystem = new Drivetrain(true);
   public static final Elevator elevatorSubsystem = new Elevator();
   public static final Intake intakeSubystem = new Intake();
   
   public RobotContainer() {
-
     drivetrainSubsystem.setDefaultCommand(
       new DrivetrainDefaultCommand(
         drivetrainSubsystem,
-        () -> driverController.getLeftY(),  
-        () -> driverController.getLeftX(),
-        () -> driverController.getRightX()
+              driverController::getLeftY,
+              driverController::getLeftX,
+              driverController::getRightX
       )
     );
 
     elevatorSubsystem.setDefaultCommand( elevatorSubsystem.setHeightCommand( Constants.Elevator.Heights.kIntaking ) );
+
+    //add bindings
+    //Check if this is ok
+    bindings.addBinding(XboxControllerBindings.A_DOWN, () -> System.out.println("Hi!"));
 
     setupDashboard();
     
