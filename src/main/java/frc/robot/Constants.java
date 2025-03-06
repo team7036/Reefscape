@@ -16,12 +16,16 @@ public final class Constants {
 
   public static class Controllers {
     public static final int kDriverPort = 0;
+    public static int kOperatorPort = 1;
   }
   public static class Intake {
     public static int kCoralIntakeMotorCANID = 55;
     public static double kCoralIntakeSpeed = 0.1;
     public static double kCoralDeliverySpeed = 1.0;
     public static int kAlgaeMotorCANId = 30;
+  }
+  public static class Bindings {
+    public static int triggerDownThreshhold = 0;
   }
   public static class Elevator {
     // CAN ID
