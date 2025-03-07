@@ -59,6 +59,10 @@ public final class Constants {
     public static int testSparkMax1 = 51;
     public static int testSparkMax2 = 52;
   }
+  public static class Climber {
+    public static int kClimberMotorCANID = 0;
+    public static double kClimberUpSpeed = 0.2;
+  }
 
   public static class Drivetrain {
     public static class Movement {
