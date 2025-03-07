@@ -43,13 +43,13 @@ public class Intake extends SubsystemBase {
     }
 
     public Command intakeAlgaeCommand(){
-        // TODO
-        return run(()->{});
+        // TODO: Test
+        return run(()->algaeMotor.set(0.3)).until(algaeSensor::isPressed);
     }
 
     public Command deliverAlgaeCommand(){
-        // TODO
-        return run(()->{});
+        // TODO: Test
+        return run(()->algaeMotor.set(0.7)).until(() -> !algaeSensor.isPressed());
     }
 
     @Override
