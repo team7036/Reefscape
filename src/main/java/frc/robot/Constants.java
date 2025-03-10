@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.apriltag.AprilTag;
+import edu.wpi.first.math.geometry.Pose3d;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -116,6 +119,53 @@ public final class Constants {
           public static final double kV = 0;
         }
       }
+    }
+  }
+  public static class AprilTags {
+    public enum Tags {
+      //Red
+      RED_SIDE_A(6),
+      RED_SIDE_B(7),
+      RED_SIDE_C(8),
+      RED_SIDE_D(9),
+      RED_SIDE_E(10),
+      RED_SIDE_F(11),
+      RED_CORAL_PA(1),
+      RED_CORAL_PB(2),
+      RED_PROCESSOR(3),
+      RED_BARGE_R(5),
+      RED_BARGE_B(15),
+      //Blue
+      BLUE_SIDE_A(17),
+      BLUE_SIDE_B(18),
+      BLUE_SIDE_C(19),
+      BLUE_SIDE_D(20),
+      BLUE_SIDE_E(21),
+      BLUE_SIDE_F(22),
+      BLUE_CORAL_PA(12),
+      BLUE_CORAL_PB(13),
+      BLUE_PROCESSOR(16),
+      BLUE_BARGE_B(14),
+      BLUE_BARGE_R(4);
+
+      private int id;
+
+      Tags(int id) {
+        this.id = id;
+      }
+
+      public int getId() {
+        return this.id;
+      }
+    }
+
+    public static boolean isValidTag(int id) {
+      for (Tags tag : Tags.values()) {
+        if (tag.getId() == id) {
+          return true;
+        }
+      }
+      return false;
     }
   }
 }
