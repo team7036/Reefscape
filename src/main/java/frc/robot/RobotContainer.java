@@ -4,13 +4,12 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.drivetrain.DrivetrainDefaultCommand;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 
 public class RobotContainer {
@@ -20,6 +19,7 @@ public class RobotContainer {
   public static final Drivetrain drivetrainSubsystem = new Drivetrain(true);
   public static final Elevator elevatorSubsystem = new Elevator();
   public static final Intake intakeSubystem = new Intake();
+  public static final Vision visionSubsystem = new Vision();
   
   public RobotContainer() {
     drivetrainSubsystem.setDefaultCommand(
