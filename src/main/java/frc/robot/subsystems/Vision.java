@@ -3,10 +3,15 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Vision extends SubsystemBase {
+
+    public Vision() {
+        setupDashboard();
+    }
 
 
     public static class AprilTag {
@@ -47,5 +52,10 @@ public class Vision extends SubsystemBase {
             return new AprilTag(id, loc);
         }
         return null;
+    }
+
+    public void setupDashboard() {
+        //put getDetectedAprilTag() on dashboard
+        SmartDashboard.putNumber("vision/detectedTag", this.getDetectedAprilTag().id);
     }
 }
