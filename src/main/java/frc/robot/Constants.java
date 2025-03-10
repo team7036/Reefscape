@@ -47,12 +47,11 @@ public final class Constants {
 
     public static class Heights {
       // Target Heights
-      public static double kIntaking = 0.3;
-      public static double kCoralStation = 0.18;
-      public static double kL4 = 1.44;
-      public static double kL3 = 0.95;
-      public static double kL2 = 0.62;
-      public static double kL1 = 0.4;
+      public static double kCoralStation = 0.35;
+      public static double kL1 = kCoralStation + 0.15;
+      public static double kL2 = kL1 + 0.25;
+      public static double kL3 = kL2 + 0.35;
+      public static double kL4 = kL3 + 0.5;
     }
   }
   public static class TestMotorControllers {

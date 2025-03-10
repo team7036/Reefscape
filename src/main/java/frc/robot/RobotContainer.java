@@ -31,7 +31,7 @@ public class RobotContainer {
       )
     );
 
-    elevatorSubsystem.setDefaultCommand( elevatorSubsystem.setHeightCommand( Constants.Elevator.Heights.kIntaking ) );
+    elevatorSubsystem.setDefaultCommand( elevatorSubsystem.setHeightCommand( Constants.Elevator.Heights.kCoralStation ) );
 
     //add bindings
     /*
