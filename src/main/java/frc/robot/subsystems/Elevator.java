@@ -60,7 +60,7 @@ public class Elevator extends SubsystemBase {
         config.encoder.positionConversionFactor(Constants.Elevator.conversion);
         config.softLimit.forwardSoftLimit(1.55);
         config.limitSwitch.forwardLimitSwitchEnabled(true);
-        config.limitSwitch.forwardLimitSwitchType(LimitSwitchConfig.Type.kNormallyClosed);
+        config.limitSwitch.forwardLimitSwitchType(LimitSwitchConfig.Type.kNormallyOpen);
         config.limitSwitch.reverseLimitSwitchEnabled(false);
         config.smartCurrentLimit(40);
         config.idleMode(SparkBaseConfig.IdleMode.kBrake);
