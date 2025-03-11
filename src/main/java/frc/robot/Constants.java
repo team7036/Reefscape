@@ -4,6 +4,14 @@
 
 package frc.robot;
 
+import edu.wpi.first.apriltag.AprilTag;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Translation3d;
+
+import java.util.List;
+import java.util.Optional;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -13,6 +21,70 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+  public static class AprilTags {
+    //LIST OF ALL OF THE TAGS
+    public enum Tags {
+      //RED
+      RED_CORAL_A(1),
+      RED_CORAL_B(2),
+      RED_PROCESSOR(3),
+      RED_BARGE_R(4),
+      RED_BARGE_L(5),
+      RED_REEF_A(6),
+      RED_REEF_B(7),
+      RED_REEF_C(8),
+      RED_REEF_D(9),
+      RED_REEF_E(10),
+      RED_REEF_F(11),
+      //BLUE
+      BLUE_CORAL_A(12),
+      BLUE_CORAL_B(13),
+      BLUE_BARGE_L(14),
+      BLUE_BARGE_R(15),
+      BLUE_PROCESSOR(16),
+      BLUE_REEF_A(17),
+      BLUE_REEF_B(18),
+      BLUE_REEF_C(19),
+      BLUE_REEF_D(20),
+      BLUE_REEF_E(21),
+      BLUE_REEF_F(22);
+
+      private int id;
+
+      Tags(int id) {
+        this.id = id;
+      }
+
+      public int getId() {
+        return id;
+      }
+    }
+    public static final List<AprilTag> APRIL_TAGS = List.of(
+            new AprilTag(1, new Pose3d(new Translation3d(657.37, 25.80, 58.50), new Rotation3d(0, 0, Math.toRadians(126)))),
+            new AprilTag(2, new Pose3d(new Translation3d(657.37, 291.20, 58.50), new Rotation3d(0, 0, Math.toRadians(234)))),
+            new AprilTag(3, new Pose3d(new Translation3d(455.15, 317.15, 51.25), new Rotation3d(0, 0, Math.toRadians(270)))),
+            new AprilTag(4, new Pose3d(new Translation3d(365.20, 241.64, 73.54), new Rotation3d(Math.toRadians(30), 0, 0))),
+            new AprilTag(5, new Pose3d(new Translation3d(365.20, 75.39, 73.54), new Rotation3d(Math.toRadians(30), 0, 0))),
+            new AprilTag(6, new Pose3d(new Translation3d(530.49, 130.17, 12.13), new Rotation3d(0, 0, Math.toRadians(300)))),
+            new AprilTag(7, new Pose3d(new Translation3d(546.87, 158.50, 12.13), new Rotation3d(0, 0, 0))),
+            new AprilTag(8, new Pose3d(new Translation3d(530.49, 186.83, 12.13), new Rotation3d(0, 0, Math.toRadians(60)))),
+            new AprilTag(9, new Pose3d(new Translation3d(497.77, 186.83, 12.13), new Rotation3d(0, 0, Math.toRadians(120)))),
+            new AprilTag(10, new Pose3d(new Translation3d(481.39, 158.50, 12.13), new Rotation3d(0, 0, Math.toRadians(180)))),
+            new AprilTag(11, new Pose3d(new Translation3d(497.77, 130.17, 12.13), new Rotation3d(0, 0, Math.toRadians(240)))),
+            new AprilTag(12, new Pose3d(new Translation3d(33.51, 25.80, 58.50), new Rotation3d(0, 0, Math.toRadians(54)))),
+            new AprilTag(13, new Pose3d(new Translation3d(33.51, 291.20, 58.50), new Rotation3d(0, 0, Math.toRadians(306)))),
+            new AprilTag(14, new Pose3d(new Translation3d(325.68, 241.64, 73.54), new Rotation3d(Math.toRadians(30), 0, Math.toRadians(180)))),
+            new AprilTag(15, new Pose3d(new Translation3d(325.68, 75.39, 73.54), new Rotation3d(Math.toRadians(30), 0, Math.toRadians(180)))),
+            new AprilTag(16, new Pose3d(new Translation3d(235.73, -0.15, 51.25), new Rotation3d(0, 0, Math.toRadians(90)))),
+            new AprilTag(17, new Pose3d(new Translation3d(160.39, 130.17, 12.13), new Rotation3d(0, 0, Math.toRadians(240)))),
+            new AprilTag(18, new Pose3d(new Translation3d(144.00, 158.50, 12.13), new Rotation3d(0, 0, Math.toRadians(180)))),
+            new AprilTag(19, new Pose3d(new Translation3d(160.39, 186.83, 12.13), new Rotation3d(0, 0, Math.toRadians(120)))),
+            new AprilTag(20, new Pose3d(new Translation3d(193.10, 186.83, 12.13), new Rotation3d(0, 0, Math.toRadians(60)))),
+            new AprilTag(21, new Pose3d(new Translation3d(209.49, 158.50, 12.13), new Rotation3d(0, 0, 0))),
+            new AprilTag(22, new Pose3d(new Translation3d(193.10, 130.17, 12.13), new Rotation3d(0, 0, Math.toRadians(300))))
+    );
+  }
 
   public static class Controllers {
     public static final int kDriverPort = 0;
