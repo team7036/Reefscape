@@ -27,7 +27,7 @@ public class Elevator extends SubsystemBase {
     private final DigitalInput lowerLimitInput;
     private final RelativeEncoder encoder;
     private final ElevatorFeedforward feedforward;
-    private final ProfiledPIDController pid;
+    public final ProfiledPIDController pid;
     private boolean kZeroed = false;
 
     public Elevator() {

@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import java.util.Arrays;
+import java.util.List;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.drivetrain.DrivetrainDefaultCommand;
@@ -22,6 +25,7 @@ public class RobotContainer {
   //public static final Vision visionSubsystem = new Vision();
   
   public RobotContainer() {
+
     drivetrainSubsystem.setDefaultCommand(
       new DrivetrainDefaultCommand(
         drivetrainSubsystem,
@@ -33,34 +37,47 @@ public class RobotContainer {
 
     elevatorSubsystem.setDefaultCommand( elevatorSubsystem.setHeightCommand( Constants.Elevator.Heights.kCoralStation ) );
 
-    //add bindings
-    /*
-    BINDINGS:
-     - DPAD: elevator
-     - LEFT BUMPER: coral intake
-     - LEFT TRIGGER: coral delivery
-     - RIGHT BUMPER: algae intake
-     - RIGHT TRIGGER: algae delivery
-     - A: zero elevator
-     - B: tbd
-     - X: tbd
-     - Y: tbd
-     */
     //Elevator
-    operatorController.povUp().onTrue( elevatorSubsystem.setHeightCommand(Constants.Elevator.Heights.kL1));
-    operatorController.povRight().onTrue( elevatorSubsystem.setHeightCommand(Constants.Elevator.Heights.kL2));
-    operatorController.povDown().onTrue( elevatorSubsystem.setHeightCommand(Constants.Elevator.Heights.kL3));
-    operatorController.povLeft().onTrue( elevatorSubsystem.setHeightCommand(Constants.Elevator.Heights.kL4));
-    //A,B,X,Y
-    operatorController.a().onTrue( elevatorSubsystem.resetZeroHeightCommand());
-    //Coral
-    operatorController.leftBumper().onTrue( intakeSubystem.intakeCoralCommand());
-    operatorController.leftTrigger(Constants.Bindings.triggerDownThreshhold).onTrue( intakeSubystem.deliverCoralCommand());
-    //Algae
-    operatorController.rightBumper().onTrue( intakeSubystem.intakeAlgaeCommand());
-    operatorController.rightTrigger(Constants.Bindings.triggerDownThreshhold).onTrue( intakeSubystem.deliverAlgaeCommand());
+    operatorKeybindings();
     setupDashboard();
     
+  }
+
+  void operatorKeybindings(){
+
+    List<Double> reefHeights = List.of(
+      Constants.Elevator.Heights.kL1,
+      Constants.Elevator.Heights.kL2,
+      Constants.Elevator.Heights.kL3,
+      Constants.Elevator.Heights.kL4
+    );
+
+    /*
+    BINDINGS:
+    - DPAD: elevator
+    - LEFT BUMPER: coral intake
+    - LEFT TRIGGER: coral delivery
+    - RIGHT BUMPER: algae intake
+    - RIGHT TRIGGER: algae delivery
+    - A: zero elevator
+    - B: tbd
+    - X: tbd
+    - Y: tbd
+    */
+    // Elevator
+    operatorController.a().whileTrue( elevatorSubsystem.setHeightCommand(reefHeights.get(0)) );
+    operatorController.b().whileTrue( elevatorSubsystem.setHeightCommand(reefHeights.get(1)) );
+    operatorController.x().whileTrue( elevatorSubsystem.setHeightCommand(reefHeights.get(2)) );   
+    operatorController.y().whileTrue( elevatorSubsystem.setHeightCommand(reefHeights.get(3)) );
+    // A,B,X,Y
+    //Coral
+    operatorController.rightTrigger(Constants.Bindings.triggerDownThreshhold).onTrue( intakeSubystem.intakeCoralCommand().onlyIf(()->(
+      elevatorSubsystem.pid.atSetpoint() && elevatorSubsystem.pid.getSetpoint().position == Constants.Elevator.Heights.kCoralStation
+    )) );
+    operatorController.rightBumper().onTrue( intakeSubystem.deliverCoralCommand().onlyIf(()->(
+      //reefHeights (elevatorSubsystem.pid.getSetpoint().position)
+      elevatorSubsystem.pid.atSetpoint() && reefHeights.contains(elevatorSubsystem.pid.getSetpoint().position)
+    )) );
   }
 
   void setupDashboard(){
@@ -69,3 +86,4 @@ public class RobotContainer {
     SmartDashboard.putData("intake", intakeSubystem);
   }
 }
+
