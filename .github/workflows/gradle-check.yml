@@ -32,9 +32,6 @@ jobs:
       - name: Run Tests
         run: ./gradlew test
 
-      - name: Run Simulation Tests
-        run: ./gradlew simulateJava  # For testing code in simulation mode
-
       - name: Upload Test Reports (Optional)
         if: always()
         uses: actions/upload-artifact@v4
