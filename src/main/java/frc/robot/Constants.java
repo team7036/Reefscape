@@ -93,11 +93,11 @@ public final class Constants {
   public static class Intake {
     public static int kCoralIntakeMotorCANID = 55;
     public static double kCoralIntakeSpeed = 0.1;
-    public static double kCoralDeliverySpeed = 1.0;
+    public static double kCoralDeliverySpeed = 0.65;
     public static int kAlgaeMotorCANId = 30;
   }
   public static class Bindings {
-    public static int triggerDownThreshhold = 1;
+    public static double triggerDownThreshhold = 0.9;
   }
   public static class Elevator {
     // CAN ID
