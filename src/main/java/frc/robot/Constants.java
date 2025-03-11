@@ -97,7 +97,7 @@ public final class Constants {
     public static int kAlgaeMotorCANId = 30;
   }
   public static class Bindings {
-    public static int triggerDownThreshhold = 0;
+    public static int triggerDownThreshhold = 1;
   }
   public static class Elevator {
     // CAN ID
