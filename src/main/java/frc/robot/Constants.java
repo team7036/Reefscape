@@ -36,7 +36,7 @@ public final class Constants {
     public static int kI = 0;
     public static double kD = 0.0;
     //For startup or shutdown to reset elevator height to all the way done
-    public static final double kMaxAcceleration = 2.0;
+    public static final double kMaxAcceleration = 2.0; 
     public static final double kMaxVelocity = 2;
     // Convert raw encoder value to meters
     public static double conversion = 5.27e-3;
