@@ -48,7 +48,9 @@ public final class Constants {
       BLUE_REEF_C(19),
       BLUE_REEF_D(20),
       BLUE_REEF_E(21),
-      BLUE_REEF_F(22);
+      BLUE_REEF_F(22),
+      //OTHER
+      NONE(0);
 
       private int id;
 

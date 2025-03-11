@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.apriltag.AprilTag;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.networktables.NetworkTable;
@@ -10,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.AprilTags.Tags;
 import frc.robot.util.AprilTagUtil;
 
 public class Vision extends SubsystemBase {
@@ -28,14 +30,13 @@ public class Vision extends SubsystemBase {
     @Override
     public void periodic(){
         //update robotpose
+        robotPose = transformToRobotPose(limelight.getEntry("botpose").getDoubleArray(new double[6]));
         if ( detectsAprilTag() ){
-            robotPose = transformToRobotPose(limelight.getEntry("botpose").getDoubleArray(new double[6]));
             int sensedId = (int) limelight.getEntry("tid").getDouble(-1);
             //Store Tag Id & Pose.
             currentTag = AprilTagUtil.fromId(sensedId);
         } else {
-            robotPose = null;
-            currentTag = null;
+            currentTag = Tags.NONE;
         }
     }
 
