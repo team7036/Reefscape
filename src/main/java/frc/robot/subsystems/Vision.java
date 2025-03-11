@@ -34,7 +34,7 @@ public class Vision extends SubsystemBase {
         if ( detectsAprilTag() ){
             int sensedId = (int) limelight.getEntry("tid").getDouble(-1);
             //Store Tag Id & Pose.
-            currentTag = AprilTagUtil.fromId(sensedId);
+            currentTag = sensedId == -1 ? Tags.NONE : AprilTagUtil.fromId(sensedId);
         } else {
             currentTag = Tags.NONE;
         }
