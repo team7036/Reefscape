@@ -16,9 +16,6 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.drivetrain.Drivetrain;
-import frc.robot.util.ControllerUtil;
-import frc.robot.util.ControllerUtil.LetterButtons;
-
 public class RobotContainer {
 
   private final CommandXboxController driverController = new CommandXboxController(Constants.Controllers.kDriverPort);
@@ -83,42 +80,6 @@ public class RobotContainer {
     operatorController.x().whileTrue(elevatorSubsystem.setHeightCommand(Constants.Elevator.Heights.kL4));
     operatorController.rightBumper().whileTrue(intakeSubystem.deliverCoralCommand().onlyIf(()->elevatorSubsystem.coralReefReady()));
     operatorController.leftBumper().whileTrue(intakeSubystem.intakeCoralCommand().onlyIf(()->elevatorSubsystem.coralIntakeReady()));
-    // operatorController.y().whileTrue( elevatorSubsystem.setHeightCommand(reefHeights.get(0)).onlyIf(() -> (
-    //   ControllerUtil.isPovNeutral(operatorController) && ControllerUtil.areABXYUp(operatorController, LetterButtons.A)
-    // )) );
-    // operatorController.b().whileTrue( elevatorSubsystem.setHeightCommand(reefHeights.get(1)).onlyIf(() -> (
-    //   ControllerUtil.isPovNeutral(operatorController) && ControllerUtil.areABXYUp(operatorController, LetterButtons.B)
-    // )) );
-    // operatorController.a().whileTrue( elevatorSubsystem.setHeightCommand(reefHeights.get(2)).onlyIf(() -> (
-    //   ControllerUtil.isPovNeutral(operatorController) && ControllerUtil.areABXYUp(operatorController, LetterButtons.X)
-    // )) );   
-    // operatorController.x().whileTrue( elevatorSubsystem.setHeightCommand(reefHeights.get(3)).onlyIf(() -> (
-    //   ControllerUtil.isPovNeutral(operatorController) && ControllerUtil.areABXYUp(operatorController, LetterButtons.Y)
-    // )) );
-    // operatorController.rightTrigger(Constants.Bindings.triggerDownThreshhold).onTrue( intakeSubystem.intakeCoralCommand().onlyIf(()->(
-    //   elevatorSubsystem.pid.atSetpoint() && elevatorSubsystem.pid.getSetpoint().position == Constants.Elevator.Heights.kCoralStation
-    // )) );
-    // operatorController.rightBumper().onTrue( intakeSubystem.deliverCoralCommand().onlyIf(()->(
-    //   elevatorSubsystem.pid.atSetpoint() && reefHeights.contains(elevatorSubsystem.pid.getSetpoint().position)
-    // )) );
-    // - Algae -
-    // operatorController.povUp().whileTrue( elevatorSubsystem.setHeightCommand(algaeHeights.get(0)).onlyIf(() -> (
-    //   ControllerUtil.areABXYUp(operatorController)
-    // )) );
-    // operatorController.povLeft().whileTrue( elevatorSubsystem.setHeightCommand(algaeHeights.get(1)).onlyIf(() -> (
-    //   ControllerUtil.areABXYUp(operatorController)
-    // )) );
-    // operatorController.povDown().whileTrue( elevatorSubsystem.setHeightCommand(algaeHeights.get(2)).onlyIf(() -> (
-    //   ControllerUtil.areABXYUp(operatorController)
-    // )) );
-    // operatorController.povRight().whileTrue( elevatorSubsystem.setHeightCommand(algaeHeights.get(3)).onlyIf(() -> (
-    //   ControllerUtil.areABXYUp(operatorController)
-    // )) );
-    // A,B,X,Y
-    //Coral
-
-    //Algae
-
   }
 
   void setupDashboard(){

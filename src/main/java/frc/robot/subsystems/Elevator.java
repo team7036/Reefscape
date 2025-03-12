@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkLowLevel;
@@ -25,7 +26,12 @@ import frc.robot.Constants;
 
 public class Elevator extends SubsystemBase {        
 
-    private final ArrayList<Double> coralReefHeights;
+    private final List<Double> coralReefHeights = List.of(
+        Constants.Elevator.Heights.kL1,
+        Constants.Elevator.Heights.kL2,
+        Constants.Elevator.Heights.kL3,
+        Constants.Elevator.Heights.kL4
+    );
     private final SparkMax motor;
     private SparkMaxConfig config = new SparkMaxConfig();
     private final DigitalInput lowerLimitInput;
@@ -35,12 +41,6 @@ public class Elevator extends SubsystemBase {
     private boolean kZeroed = false;
 
     public Elevator() {
-
-        coralReefHeights = new ArrayList<>(4);
-        coralReefHeights.add(Constants.Elevator.Heights.kL1);
-        coralReefHeights.add(Constants.Elevator.Heights.kL2);
-        coralReefHeights.add(Constants.Elevator.Heights.kL3);
-        coralReefHeights.add(Constants.Elevator.Heights.kL4);
 
         motor = new SparkMax(
             Constants.Elevator.kMotorCANId, 
