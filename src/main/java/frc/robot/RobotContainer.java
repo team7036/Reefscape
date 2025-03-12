@@ -21,14 +21,14 @@ public class RobotContainer {
   private static final Intake intakeSubystem = new Intake();
     //public static final Vision visionSubsystem = new Vision();
     
-    public RobotContainer() {  
+  public RobotContainer() {  
       //Elevator
       operatorBindings();
       driverBindings();
       setupDashboard();
-    }
+  }
   
-    void driverBindings(){
+  void driverBindings(){
       drivetrainSubsystem.setDefaultCommand(
         new DrivetrainDefaultCommand(
           drivetrainSubsystem,
@@ -41,7 +41,6 @@ public class RobotContainer {
       driverController.start().onTrue(new InstantCommand(()->{
         drivetrainSubsystem.fieldRelative = !drivetrainSubsystem.fieldRelative;
     }));
-  }
 
   void operatorBindings(){
     // Elevator
