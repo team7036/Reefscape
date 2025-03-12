@@ -1,24 +1,30 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.apriltag.AprilTag;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.AprilTags.Tags;
 import frc.robot.util.AprilTagUtil;
 
 public class Vision extends SubsystemBase {
 
     public Pose3d robotPose;
     public Constants.AprilTags.Tags currentTag;
-    private NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
+    private static NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
 
     public Vision(){
+        robotPose = new Pose3d(new Translation3d(0, 0, 0), new Rotation3d(0, 0, 0));
+        currentTag = Tags.NONE;
         setupDashboard();
     }
 
@@ -28,14 +34,13 @@ public class Vision extends SubsystemBase {
     @Override
     public void periodic(){
         //update robotpose
+        robotPose = transformToRobotPose(limelight.getEntry("botpose").getDoubleArray(new double[6]));
         if ( detectsAprilTag() ){
-            robotPose = transformToRobotPose(limelight.getEntry("botpose").getDoubleArray(new double[6]));
             int sensedId = (int) limelight.getEntry("tid").getDouble(-1);
             //Store Tag Id & Pose.
-            currentTag = AprilTagUtil.fromId(sensedId);
+            currentTag = sensedId == -1 ? Tags.NONE : AprilTagUtil.fromId(sensedId);
         } else {
-            robotPose = null;
-            currentTag = null;
+            currentTag = Tags.NONE;
         }
     }
 
@@ -44,6 +49,11 @@ public class Vision extends SubsystemBase {
         SmartDashboard.putNumber("vision/poseY", robotPose.getY());
         SmartDashboard.putNumber("vision/poseZ", robotPose.getZ());
         SmartDashboard.putNumber("vision/poseRot", robotPose.getRotation().getAngle());
+    }
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.setSmartDashboardType("VisionSubsystem");
+        builder.addBooleanProperty("sensedTag", this::detectsAprilTag, null);
     }
     //Can move later, just a simple helper method
     private Pose3d transformToRobotPose(double[] arr) {

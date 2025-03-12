@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation3d;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,7 +49,9 @@ public final class Constants {
       BLUE_REEF_C(19),
       BLUE_REEF_D(20),
       BLUE_REEF_E(21),
-      BLUE_REEF_F(22);
+      BLUE_REEF_F(22),
+      //OTHER
+      NONE(0);
 
       private int id;
 
@@ -93,11 +96,11 @@ public final class Constants {
   public static class Intake {
     public static int kCoralIntakeMotorCANID = 55;
     public static double kCoralIntakeSpeed = 0.1;
-    public static double kCoralDeliverySpeed = 1.0;
+    public static double kCoralDeliverySpeed = 0.65;
     public static int kAlgaeMotorCANId = 30;
   }
   public static class Bindings {
-    public static int triggerDownThreshhold = 0;
+    public static double triggerDownThreshhold = 0.9;
   }
   public static class Elevator {
     // CAN ID
@@ -119,8 +122,8 @@ public final class Constants {
 
     public static class Heights {
       // Target Heights
-      public static double kCoralStation = 0.35;
-      public static double kL1 = kCoralStation + 0.15;
+      public static double kCoralStation = 0.28;
+      public static double kL1 = kCoralStation + 0.2;
       public static double kL2 = kL1 + 0.25;
       public static double kL3 = kL2 + 0.35;
       public static double kL4 = kL3 + 0.5;
