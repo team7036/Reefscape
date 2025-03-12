@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -45,6 +46,11 @@ public class Vision extends SubsystemBase {
         SmartDashboard.putNumber("vision/poseY", robotPose.getY());
         SmartDashboard.putNumber("vision/poseZ", robotPose.getZ());
         SmartDashboard.putNumber("vision/poseRot", robotPose.getRotation().getAngle());
+    }
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.setSmartDashboardType("VisionSubsystem");
+        builder.addBooleanProperty("sensedTag", this::detectsAprilTag, null);
     }
     //Can move later, just a simple helper method
     private Pose3d transformToRobotPose(double[] arr) {
