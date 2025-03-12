@@ -1,7 +1,4 @@
 package frc.robot.subsystems;
-
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import com.revrobotics.RelativeEncoder;
@@ -75,7 +72,6 @@ public class Elevator extends SubsystemBase {
         config.limitSwitch.reverseLimitSwitchEnabled(false);
         config.smartCurrentLimit(40);
         config.idleMode(SparkBaseConfig.IdleMode.kBrake);
-        motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     }
 
     private void setupDashboard(){

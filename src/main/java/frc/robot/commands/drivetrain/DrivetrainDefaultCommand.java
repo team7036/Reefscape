@@ -13,11 +13,12 @@ public class DrivetrainDefaultCommand extends Command {
 
   private Drivetrain drive;
 
-  ChassisSpeeds speeds = new ChassisSpeeds();
-
   DoubleSupplier leftXSupplier;
   DoubleSupplier leftYSupplier;
   DoubleSupplier rightXSupplier;
+
+  Boolean robotRelative;
+  Double robotAngle;
 
   SlewRateLimiter xSpeedLimiter = new SlewRateLimiter(Movement.kSlewRateLimitX);
   SlewRateLimiter ySpeedLimiter = new SlewRateLimiter(Movement.kSlewRateLimitY);
@@ -43,6 +44,7 @@ public class DrivetrainDefaultCommand extends Command {
         * -ySpeedLimiter.calculate(MathUtil.applyDeadband(leftYSupplier.getAsDouble(), 0.04));
     double rot = Movement.kMaxRotation
         * -rotSpeedLimiter.calculate(MathUtil.applyDeadband(rightXSupplier.getAsDouble(), 0.04));
+  
     drive.setSpeeds(new ChassisSpeeds(xSpeed, ySpeed, rot));
 
   }

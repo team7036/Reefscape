@@ -5,6 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.drivetrain.DrivetrainDefaultCommand;
 import frc.robot.subsystems.Elevator;
@@ -12,35 +14,39 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 public class RobotContainer {
 
-  private final CommandXboxController driverController = new CommandXboxController(Constants.Controllers.kDriverPort);
-  private final CommandXboxController operatorController = new CommandXboxController(Constants.Controllers.kOperatorPort);
-  public static final Drivetrain drivetrainSubsystem = new Drivetrain(true);
-  public static final Elevator elevatorSubsystem = new Elevator();
-  public static final Intake intakeSubystem = new Intake();
-  //public static final Vision visionSubsystem = new Vision();
-  
-  public RobotContainer() {
-
-    drivetrainSubsystem.setDefaultCommand(
-      new DrivetrainDefaultCommand(
-        drivetrainSubsystem,
-              driverController::getLeftY,
-              driverController::getLeftX,
-              driverController::getRightX
-      )
-    );
-
-    elevatorSubsystem.setDefaultCommand( elevatorSubsystem.setHeightCommand( Constants.Elevator.Heights.kCoralStation ) );
-
-    //Elevator
-    operatorKeybindings();
-    setupDashboard();
+  private static final CommandXboxController driverController = new CommandXboxController(Constants.Controllers.kDriverPort);
+  private static final CommandXboxController operatorController = new CommandXboxController(Constants.Controllers.kOperatorPort);
+  private static final Drivetrain drivetrainSubsystem = new Drivetrain(true);
+  private static final Elevator elevatorSubsystem = new Elevator();
+  private static final Intake intakeSubystem = new Intake();
+    //public static final Vision visionSubsystem = new Vision();
     
+    public RobotContainer() {  
+      //Elevator
+      operatorBindings();
+      driverBindings();
+      setupDashboard();
+    }
+  
+    void driverBindings(){
+      drivetrainSubsystem.setDefaultCommand(
+        new DrivetrainDefaultCommand(
+          drivetrainSubsystem,
+          driverController::getLeftY,
+          driverController::getLeftX,
+          driverController::getRightX
+        )
+      );
+      driverController.back().onTrue(new InstantCommand(()->drivetrainSubsystem.resetGyro()));
+      driverController.start().onTrue(new InstantCommand(()->{
+        drivetrainSubsystem.fieldRelative = !drivetrainSubsystem.fieldRelative;
+    }));
   }
 
-  void operatorKeybindings(){
+  void operatorBindings(){
     // Elevator
     // - Coral -
+    elevatorSubsystem.setDefaultCommand( elevatorSubsystem.setHeightCommand( Constants.Elevator.Heights.kCoralStation ) );
     operatorController.y().whileTrue(elevatorSubsystem.setHeightCommand(Constants.Elevator.Heights.kL1));
     operatorController.b().whileTrue(elevatorSubsystem.setHeightCommand(Constants.Elevator.Heights.kL2));
     operatorController.a().whileTrue(elevatorSubsystem.setHeightCommand(Constants.Elevator.Heights.kL3));
