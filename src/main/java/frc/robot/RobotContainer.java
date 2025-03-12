@@ -40,7 +40,8 @@ public class RobotContainer {
       driverController.back().onTrue(new InstantCommand(()->drivetrainSubsystem.resetGyro()));
       driverController.start().onTrue(new InstantCommand(()->{
         drivetrainSubsystem.fieldRelative = !drivetrainSubsystem.fieldRelative;
-    }));
+      }));
+  }
 
   void operatorBindings(){
     // Elevator
