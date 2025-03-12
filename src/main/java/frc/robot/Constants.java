@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation3d;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -121,8 +122,8 @@ public final class Constants {
 
     public static class Heights {
       // Target Heights
-      public static double kCoralStation = 0.35;
-      public static double kL1 = kCoralStation + 0.15;
+      public static double kCoralStation = 0.28;
+      public static double kL1 = kCoralStation + 0.2;
       public static double kL2 = kL1 + 0.25;
       public static double kL3 = kL2 + 0.35;
       public static double kL4 = kL3 + 0.5;
