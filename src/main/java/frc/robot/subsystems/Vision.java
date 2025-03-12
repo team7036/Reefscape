@@ -4,6 +4,7 @@ import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.util.sendable.SendableBuilder;
@@ -19,9 +20,11 @@ public class Vision extends SubsystemBase {
 
     public Pose3d robotPose;
     public Constants.AprilTags.Tags currentTag;
-    private NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
+    private static NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
 
     public Vision(){
+        robotPose = new Pose3d(new Translation3d(0, 0, 0), new Rotation3d(0, 0, 0));
+        currentTag = Tags.NONE;
         setupDashboard();
     }
 

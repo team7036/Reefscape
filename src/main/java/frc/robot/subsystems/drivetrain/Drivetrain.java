@@ -14,7 +14,6 @@ import frc.robot.Constants.Drivetrain.Movement;
 import frc.robot.Constants.Drivetrain.Swerve;
 
 public class Drivetrain extends SubsystemBase {
-
     private final SwerveModule frontRight = new SwerveModule(Swerve.CANIds.kFrontRightDrive, Swerve.CANIds.kFrontRightTurn, Swerve.CANIds.kFrontRightEncoder);
     private final SwerveModule backLeft = new SwerveModule(Swerve.CANIds.kBackLeftDrive, Swerve.CANIds.kBackLeftTurn, Swerve.CANIds.kBackLeftEncoder);
     private final SwerveModule backRight = new SwerveModule(Swerve.CANIds.kBackRightDrive, Swerve.CANIds.kBackRightTurn, Swerve.CANIds.kBackRightEncoder);

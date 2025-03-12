@@ -4,17 +4,11 @@
 
 package frc.robot;
 
-import static edu.wpi.first.units.Units.PoundInch;
-
-import java.util.Arrays;
-import java.util.List;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.drivetrain.DrivetrainDefaultCommand;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 public class RobotContainer {
 
@@ -45,33 +39,6 @@ public class RobotContainer {
   }
 
   void operatorKeybindings(){
-
-    // List<Double> reefHeights = List.of(
-    //   Constants.Elevator.Heights.kL1,
-    //   Constants.Elevator.Heights.kL2,
-    //   Constants.Elevator.Heights.kL3,
-    //   Constants.Elevator.Heights.kL4
-    // );
-    // List<Double> algaeHeights = List.of(
-    //   //TODO: handle algae heights
-    //   Constants.Elevator.Heights.kL1 + 0.0,
-    //   Constants.Elevator.Heights.kL2 + 0.0,
-    //   Constants.Elevator.Heights.kL3 + 0.0,
-    //   Constants.Elevator.Heights.kL4 + 0.0
-    // );
-
-    /*
-    BINDINGS:
-    - DPAD: elevator
-    - LEFT BUMPER: coral intake
-    - LEFT TRIGGER: coral delivery
-    - RIGHT BUMPER: algae intake
-    - RIGHT TRIGGER: algae delivery
-    - A: zero elevator
-    - B: tbd
-    - X: tbd
-    - Y: tbd
-    */
     // Elevator
     // - Coral -
     operatorController.y().whileTrue(elevatorSubsystem.setHeightCommand(Constants.Elevator.Heights.kL1));
