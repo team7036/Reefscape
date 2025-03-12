@@ -1,4 +1,5 @@
 package frc.robot.subsystems;
+import java.util.List;
 
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkLowLevel;
@@ -20,8 +21,14 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class Elevator extends SubsystemBase {
+public class Elevator extends SubsystemBase {        
 
+    private final List<Double> coralReefHeights = List.of(
+        Constants.Elevator.Heights.kL1,
+        Constants.Elevator.Heights.kL2,
+        Constants.Elevator.Heights.kL3,
+        Constants.Elevator.Heights.kL4
+    );
     private final SparkMax motor;
     private SparkMaxConfig config = new SparkMaxConfig();
     private final DigitalInput lowerLimitInput;
@@ -31,8 +38,9 @@ public class Elevator extends SubsystemBase {
     private boolean kZeroed = false;
 
     public Elevator() {
+
         motor = new SparkMax(
-            Constants.Elevator.motorCanId, 
+            Constants.Elevator.kMotorCANId, 
             SparkLowLevel.MotorType.kBrushless
         );
         configureMotor();
@@ -42,8 +50,8 @@ public class Elevator extends SubsystemBase {
             Constants.Elevator.kI, 
             Constants.Elevator.kD, 
             new TrapezoidProfile.Constraints(
-                Constants.Elevator.maxVelocity, 
-                Constants.Elevator.maxAcceleration
+                Constants.Elevator.kMaxVelocity, 
+                Constants.Elevator.kMaxAcceleration
             )
         );
         feedforward = new ElevatorFeedforward(
@@ -64,7 +72,6 @@ public class Elevator extends SubsystemBase {
         config.limitSwitch.reverseLimitSwitchEnabled(false);
         config.smartCurrentLimit(40);
         config.idleMode(SparkBaseConfig.IdleMode.kBrake);
-        motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     }
 
     private void setupDashboard(){
@@ -73,10 +80,10 @@ public class Elevator extends SubsystemBase {
         SmartDashboard.putData("elevator/reset", this.resetZeroHeightCommand());
         SmartDashboard.putData("elevator/lower", run(()->motor.set(-0.5)));
 
-        SmartDashboard.putData("elevator/L1", this.setHeightCommand(Constants.Elevator.Heights.ReefL1));
-        SmartDashboard.putData("elevator/L2", this.setHeightCommand(Constants.Elevator.Heights.ReefL2));
-        SmartDashboard.putData("elevator/L3", this.setHeightCommand(Constants.Elevator.Heights.ReefL3));
-        SmartDashboard.putData("elevator/L4", this.setHeightCommand(Constants.Elevator.Heights.ReefL4));
+        SmartDashboard.putData("elevator/L1", this.setHeightCommand(Constants.Elevator.Heights.kL1));
+        SmartDashboard.putData("elevator/L2", this.setHeightCommand(Constants.Elevator.Heights.kL2));
+        SmartDashboard.putData("elevator/L3", this.setHeightCommand(Constants.Elevator.Heights.kL3));
+        SmartDashboard.putData("elevator/L4", this.setHeightCommand(Constants.Elevator.Heights.kL4));
     }
 
     public Command setHeightCommand( double height ){
@@ -102,14 +109,33 @@ public class Elevator extends SubsystemBase {
         );
     }
 
+    public boolean coralReefReady(){
+        return pid.atSetpoint() && coralReefHeights.contains(pid.getSetpoint().position);
+    }
+
+    public boolean coralIntakeReady(){
+        return pid.atSetpoint() && (pid.getSetpoint().position == Constants.Elevator.Heights.kCoralStation);
+    }
+
+    public boolean algaeIntakeReady(){
+        // TODO
+        return false;
+    }
+
+    public boolean algaeProcessorReady(){
+        // TODO
+        return false;
+    }
+
     @Override
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("ElevatorSubsystem");
+        builder.addBooleanProperty("coral_reef_ready", this::coralReefReady, null);
+        builder.addBooleanProperty("coral_intake_ready", this::coralIntakeReady, null);
         builder.addDoubleProperty("height", this.encoder::getPosition, null);
         builder.addDoubleProperty("power", this.motor::getAppliedOutput, null);
         builder.addBooleanProperty("lowerlimit", ()->!lowerLimitInput.get(), null);
         builder.addBooleanProperty("upperlimit", motor.getForwardLimitSwitch()::isPressed, null);
-
     }
 
 

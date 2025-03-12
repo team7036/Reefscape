@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.sim.SparkMaxSim;
 import com.revrobotics.spark.SparkLimitSwitch;
 import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.SparkMax;
@@ -18,9 +17,9 @@ public class Intake extends SubsystemBase {
     private final SparkLimitSwitch algaeSensor;
 
     public Intake() {
-        coralMotor = new SparkMax(Constants.Intake.coralMotorCANId, SparkLowLevel.MotorType.kBrushless);
+        coralMotor = new SparkMax(Constants.Intake.kCoralIntakeMotorCANID, SparkLowLevel.MotorType.kBrushless);
         coralSensor = coralMotor.getForwardLimitSwitch();
-        algaeMotor = new SparkMax(Constants.Intake.algaeMotorCANId, SparkLowLevel.MotorType.kBrushless);
+        algaeMotor = new SparkMax(Constants.Intake.kAlgaeMotorCANId, SparkLowLevel.MotorType.kBrushless);
         algaeSensor = algaeMotor.getForwardLimitSwitch();
         this.setDefaultCommand(this.stopCoralCommand());
         setupDashboard();
@@ -44,13 +43,13 @@ public class Intake extends SubsystemBase {
     }
 
     public Command intakeAlgaeCommand(){
-        // TODO
-        return run(()->{});
+        // TODO: Test
+        return run(()->algaeMotor.set(0.3)).until(algaeSensor::isPressed);
     }
 
     public Command deliverAlgaeCommand(){
-        // TODO
-        return run(()->{});
+        // TODO: Test
+        return run(()->algaeMotor.set(0.7)).until(() -> !algaeSensor.isPressed());
     }
 
     @Override
