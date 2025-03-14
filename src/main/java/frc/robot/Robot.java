@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -16,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * this project, you must also update the Main.java file in the project.
  */
 public class Robot extends TimedRobot {
-  private Command autonomousCommand;
+  private Supplier<Command> autonomousCommand;
 
   private final RobotContainer robotContainer;
 
@@ -27,6 +29,7 @@ public class Robot extends TimedRobot {
    */
   public Robot() {
     robotContainer = new RobotContainer();
+    autonomousCommand = robotContainer::getAutoCommand;
   }
 
   @Override
@@ -45,6 +48,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    autonomousCommand.get().schedule();
   }
 
   @Override
@@ -54,8 +58,8 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     
-    if (autonomousCommand != null) {
-      autonomousCommand.cancel();
+    if (autonomousCommand != null && autonomousCommand.get() != null) {
+      autonomousCommand.get().cancel();
     }
   }
 

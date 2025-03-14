@@ -4,6 +4,7 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -17,11 +18,15 @@ import frc.robot.Constants.Drivetrain.Swerve;
 
 public class SwerveModule extends SubsystemBase {
 
-    private final SparkMax driveMotor;
-    private final SparkMax turnMotor;
+    private final SparkMax driveMotor, turnMotor;
+    private final SparkMaxConfig driveConfig, turnConfig;
     private final RelativeEncoder driveEncoder;
     private final CANcoder turnEncoder;
-    private final PIDController drivePID = new PIDController(Swerve.PID.Drive.kP, Swerve.PID.Drive.kI, Swerve.PID.Drive.kD);
+    private final PIDController drivePID = new PIDController(
+        Swerve.PID.Drive.kP,
+        Swerve.PID.Drive.kI,
+        Swerve.PID.Drive.kD
+        );
     private final PIDController turnPID = new PIDController(
         Swerve.PID.Turn.kP, 
         Swerve.PID.Turn.kI, 
@@ -33,10 +38,18 @@ public class SwerveModule extends SubsystemBase {
 
     public SwerveModule(int driveMotorId, int turnMotorId, int turnEncoderId){
         driveMotor = new SparkMax(driveMotorId, MotorType.kBrushless);
+        driveConfig = new SparkMaxConfig();
         turnMotor = new SparkMax(turnMotorId, MotorType.kBrushless);
+        turnConfig = new SparkMaxConfig();
         driveEncoder = driveMotor.getEncoder();
         turnEncoder = new CANcoder(turnEncoderId);
         turnPID.enableContinuousInput(-Math.PI, Math.PI);
+        configureMotors();
+    }
+
+    private void configureMotors(){
+        turnConfig.smartCurrentLimit(40);
+        driveConfig.smartCurrentLimit(40);
     }
 
     public SwerveModuleState getState(){
@@ -44,9 +57,7 @@ public class SwerveModule extends SubsystemBase {
     }
 
     public SwerveModulePosition getPosition(){
-        return new SwerveModulePosition(
-            driveEncoder.getPosition(), new Rotation2d(getTurnPosition())
-        );
+        return new SwerveModulePosition(driveEncoder.getPosition(), new Rotation2d(getTurnPosition()));
     }
 
     public double getTurnPosition() {

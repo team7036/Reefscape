@@ -4,8 +4,6 @@ import java.util.List;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkBase.PersistMode;
-import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.config.LimitSwitchConfig;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -30,19 +28,20 @@ public class Elevator extends SubsystemBase {
         Constants.Elevator.Heights.kL4
     );
     private final SparkMax motor;
-    private SparkMaxConfig config = new SparkMaxConfig();
+    private final SparkMaxConfig config;
     private final DigitalInput lowerLimitInput;
     private final RelativeEncoder encoder;
     private final ElevatorFeedforward feedforward;
     private final ProfiledPIDController pid;
+
     private boolean kZeroed = false;
 
     public Elevator() {
-
         motor = new SparkMax(
             Constants.Elevator.kMotorCANId, 
             SparkLowLevel.MotorType.kBrushless
         );
+        config = new SparkMaxConfig();
         configureMotor();
         encoder = motor.getEncoder();
         pid = new ProfiledPIDController(
@@ -60,8 +59,13 @@ public class Elevator extends SubsystemBase {
             Constants.Elevator.kV,
             Constants.Elevator.kA
         );
-        lowerLimitInput = new DigitalInput(0);
+        lowerLimitInput = new DigitalInput(Constants.Elevator.kLowerLimitInput);
+        this.setDefaultCommand(this.setHeightCommand(Constants.Elevator.Heights.kCoralIntake));
         setupDashboard();
+    }
+
+    public boolean aimingAtTrough(){
+        return pid.atSetpoint() && ( pid.getSetpoint().position == Constants.Elevator.Heights.kL1 );
     }
 
     private void configureMotor(){
@@ -86,12 +90,16 @@ public class Elevator extends SubsystemBase {
         SmartDashboard.putData("elevator/L4", this.setHeightCommand(Constants.Elevator.Heights.kL4));
     }
 
+    private void setHeight( double height ){
+        double pidInput = pid.calculate(encoder.getPosition(), height);
+        double ffInput = feedforward.calculate( pid.getSetpoint().velocity );
+        motor.setVoltage(pidInput + ffInput);
+    }
+
     public Command setHeightCommand( double height ){
-        return run(()->{
-            double pidInput = pid.calculate(encoder.getPosition(), height);
-            double ffInput = feedforward.calculate( pid.getSetpoint().velocity );
-            motor.setVoltage(pidInput + ffInput);
-        }).beforeStarting(resetZeroHeightCommand().onlyIf(()->!kZeroed));
+        return run(()-> setHeight(height))
+            .until(pid::atGoal)
+            .beforeStarting(resetZeroHeightCommand().onlyIf(()->!kZeroed));
     }
 
     public Command stopCommand(){
@@ -114,17 +122,7 @@ public class Elevator extends SubsystemBase {
     }
 
     public boolean coralIntakeReady(){
-        return pid.atSetpoint() && (pid.getSetpoint().position == Constants.Elevator.Heights.kCoralStation);
-    }
-
-    public boolean algaeIntakeReady(){
-        // TODO
-        return false;
-    }
-
-    public boolean algaeProcessorReady(){
-        // TODO
-        return false;
+        return pid.atSetpoint() && (pid.getSetpoint().position == Constants.Elevator.Heights.kCoralIntake);
     }
 
     @Override
@@ -133,6 +131,7 @@ public class Elevator extends SubsystemBase {
         builder.addBooleanProperty("coral_reef_ready", this::coralReefReady, null);
         builder.addBooleanProperty("coral_intake_ready", this::coralIntakeReady, null);
         builder.addDoubleProperty("height", this.encoder::getPosition, null);
+        builder.addDoubleProperty("targetheight", ()->this.pid.getGoal().position, null);
         builder.addDoubleProperty("power", this.motor::getAppliedOutput, null);
         builder.addBooleanProperty("lowerlimit", ()->!lowerLimitInput.get(), null);
         builder.addBooleanProperty("upperlimit", motor.getForwardLimitSwitch()::isPressed, null);

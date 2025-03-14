@@ -1,7 +1,5 @@
 package frc.robot.commands.drivetrain;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -9,16 +7,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.Drivetrain.Movement;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 
+import java.util.function.DoubleSupplier;
+
 public class DrivetrainDefaultCommand extends Command {
 
   private Drivetrain drive;
 
-  DoubleSupplier leftXSupplier;
-  DoubleSupplier leftYSupplier;
-  DoubleSupplier rightXSupplier;
-
-  Boolean robotRelative;
-  Double robotAngle;
+  DoubleSupplier leftXSupplier, leftYSupplier, rightXSupplier;
 
   SlewRateLimiter xSpeedLimiter = new SlewRateLimiter(Movement.kSlewRateLimitX);
   SlewRateLimiter ySpeedLimiter = new SlewRateLimiter(Movement.kSlewRateLimitY);
@@ -45,7 +40,7 @@ public class DrivetrainDefaultCommand extends Command {
     double rot = Movement.kMaxRotation
         * -rotSpeedLimiter.calculate(MathUtil.applyDeadband(rightXSupplier.getAsDouble(), 0.04));
   
-    drive.setSpeeds(new ChassisSpeeds(xSpeed, ySpeed, rot));
+    drive.setSpeeds(new ChassisSpeeds(xSpeed, ySpeed, rot), false);
 
   }
 }
