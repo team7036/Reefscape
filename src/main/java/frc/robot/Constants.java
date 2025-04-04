@@ -148,7 +148,7 @@ public final class Constants {
     public static class Heights {
       // Target Heights
       public static double kAlgaeIntake = 0;
-      public static double kCoralIntake = 0.25;
+      public static double kCoralIntake = 0.26;
       public static double kL1 = kCoralIntake + 0.28;
       public static double kL2 = kL1 + 0.25;
       public static double kL3 = kL2 + 0.37;

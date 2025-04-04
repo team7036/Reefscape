@@ -22,16 +22,7 @@ public class SwerveModule extends SubsystemBase {
     private final SparkMaxConfig driveConfig, turnConfig;
     private final RelativeEncoder driveEncoder;
     private final CANcoder turnEncoder;
-    private final PIDController drivePID = new PIDController(
-        Swerve.PID.Drive.kP,
-        Swerve.PID.Drive.kI,
-        Swerve.PID.Drive.kD
-        );
-    private final PIDController turnPID = new PIDController(
-        Swerve.PID.Turn.kP, 
-        Swerve.PID.Turn.kI, 
-        Swerve.PID.Turn.kD
-    );
+    private final PIDController drivePID, turnPID;
     private final SimpleMotorFeedforward driveFeedForward = new SimpleMotorFeedforward(Swerve.FeedForward.Drive.kS, Swerve.FeedForward.Drive.kV);
     private final SimpleMotorFeedforward turnFeedforward = new SimpleMotorFeedforward(Swerve.FeedForward.Turn.kS, Swerve.FeedForward.Turn.kV);
     
@@ -43,6 +34,18 @@ public class SwerveModule extends SubsystemBase {
         turnConfig = new SparkMaxConfig();
         driveEncoder = driveMotor.getEncoder();
         turnEncoder = new CANcoder(turnEncoderId);
+
+        drivePID = new PIDController(
+            Swerve.PID.Drive.kP,
+            Swerve.PID.Drive.kI,
+            Swerve.PID.Drive.kD
+        );
+        turnPID = new PIDController(
+            Swerve.PID.Turn.kP, 
+            Swerve.PID.Turn.kI, 
+            Swerve.PID.Turn.kD
+        );
+        
         turnPID.enableContinuousInput(-Math.PI, Math.PI);
         configureMotors();
     }

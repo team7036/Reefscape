@@ -54,7 +54,7 @@ public class Vision extends SubsystemBase {
         builder.setSmartDashboardType("VisionSubsystem");
         builder.addBooleanProperty("sensedTag", this::detectsAprilTag, null);
     }
-    //Can move later, just a simple helper method
+
     private Pose3d transformToRobotPose(double[] arr) {
         return new Pose3d(arr[0], arr[1], arr[2], new Rotation3d(arr[3], arr[4], arr[5]));
     }

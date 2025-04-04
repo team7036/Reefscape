@@ -6,10 +6,12 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.CoralIntake;
 
 public class IntakeCoralCommand extends SequentialCommandGroup {
-    public IntakeCoralCommand(CoralIntake _intake, Elevator _elevator){
+    public IntakeCoralCommand(
+        CoralIntake intake,
+        Elevator elevator){
         addCommands(
-            _elevator.setHeightCommand(Constants.Elevator.Heights.kCoralIntake),
-            _intake.intakeCoralCommand()
+            elevator.setHeightCommand(Constants.Elevator.Heights.kCoralIntake),
+            intake.intakeCoralCommand()
         );
     }
 }

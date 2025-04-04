@@ -14,6 +14,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Drivetrain.Movement;
 import frc.robot.Constants.Drivetrain.Swerve;
@@ -25,7 +26,8 @@ public class Drivetrain extends SubsystemBase {
 
     private SwerveModuleState[] moduleStates;
 
-    private final AHRS gyro;
+    //private final AHRS gyro;
+    private final ADXRS450_Gyro gyro;
     private final SwerveDriveKinematics kinematics;
     private final SwerveDriveOdometry odometry;
 
@@ -33,13 +35,17 @@ public class Drivetrain extends SubsystemBase {
 
     public final SwerveDrivePoseEstimator poseEstimator;
 
-    public Drivetrain(boolean _fieldRelative){
-        fieldRelative = _fieldRelative;
+    public Drivetrain(boolean fieldRelative){
+        //Is Field Relative
+        this.fieldRelative = fieldRelative;
+        //Instantiate SwerveModules
         frontRight = new SwerveModule(Swerve.CANIds.kFrontRightDrive, Swerve.CANIds.kFrontRightTurn, Swerve.CANIds.kFrontRightEncoder);
         backLeft = new SwerveModule(Swerve.CANIds.kBackLeftDrive, Swerve.CANIds.kBackLeftTurn, Swerve.CANIds.kBackLeftEncoder);
         backRight = new SwerveModule(Swerve.CANIds.kBackRightDrive, Swerve.CANIds.kBackRightTurn, Swerve.CANIds.kBackRightEncoder);
         frontLeft = new SwerveModule(Swerve.CANIds.kFrontLeftDrive, Swerve.CANIds.kFrontLeftTurn, Swerve.CANIds.kFrontLeftEncoder);
-        gyro = new AHRS(AHRS.NavXComType.kMXP_SPI);
+        //Instantiate Gyro, Kinematics, and Odometry
+        gyro = new ADXRS450_Gyro();
+        //gyro = new AHRS(AHRS.NavXComType.kMXP_SPI);
         kinematics = new SwerveDriveKinematics(
             new Translation2d(0.315, -0.315), // Front Left Location
             new Translation2d(0.315, 0.315), // Front Right
@@ -49,7 +55,9 @@ public class Drivetrain extends SubsystemBase {
         odometry = new SwerveDriveOdometry(
             kinematics,
             gyro.getRotation2d(), 
-            getSwerveModulePositions());
+            getSwerveModulePositions()
+        );
+        //Setup pose estimator for position estimate
         poseEstimator = new SwerveDrivePoseEstimator(
             kinematics,
             getAngle(),
@@ -116,6 +124,7 @@ public class Drivetrain extends SubsystemBase {
         builder.addDoubleProperty("pose/y", getCurrentPose()::getY, null);
         builder.addDoubleProperty("pose/rot", getCurrentPose().getRotation()::getDegrees, null);
         builder.addBooleanProperty("field_relative", () -> this.fieldRelative, null);
+        builder.addDoubleProperty("gyro", gyro::getAngle, null);
     }
     public void resetPose(Pose2d pose) {
         odometry.resetPose(pose);

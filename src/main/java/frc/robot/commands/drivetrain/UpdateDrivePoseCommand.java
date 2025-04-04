@@ -9,7 +9,9 @@ public class UpdateDrivePoseCommand extends Command {
     private Drivetrain drive;
     private Vision vision;
 
-    public UpdateDrivePoseCommand(Drivetrain drive, Vision vision) {
+    public UpdateDrivePoseCommand(
+        Drivetrain drive,
+        Vision vision) {
         addRequirements(drive, vision);
         this.drive = drive;
         this.vision = vision;
@@ -17,7 +19,7 @@ public class UpdateDrivePoseCommand extends Command {
 
     @Override
     public void execute() {
-        drive.poseEstimator.addVisionMeasurement(vision.getRobotPose2d(), Timer.getFPGATimestamp());
+       this. drive.poseEstimator.addVisionMeasurement(this.vision.getRobotPose2d(), Timer.getFPGATimestamp());
     }
 
     

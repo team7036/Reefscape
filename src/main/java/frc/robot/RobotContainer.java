@@ -6,13 +6,15 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
-//import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 //import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.IntakeCoralCommand;
 import frc.robot.commands.ScoreOnReefCommand;
@@ -21,7 +23,7 @@ import frc.robot.subsystems.AlgaeIntake;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.CoralIntake;
-//import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 
 public class RobotContainer {
@@ -34,8 +36,7 @@ public class RobotContainer {
   private static final CoralIntake coralIntakeSubsystem = new CoralIntake();
   private static final AlgaeIntake algaeIntakeSubsystem = new AlgaeIntake();
   //private static final Climber climberSubsystem = new Climber();
-  //public static final Vision visionSubsystem = new Vision();
-
+  public static final Vision visionSubsystem = new Vision();
   // Pathplanner
   private final SendableChooser<Command> autoPathChooser;
 
@@ -46,12 +47,7 @@ public class RobotContainer {
     driverBindings();
 
     // Pathplanner
-    boolean isCompetition = false; // Set to true on comp
-    //If it is a competition, only provide competition paths. Names should start with comp_PATH NAME
-    autoPathChooser = AutoBuilder.buildAutoChooserWithOptionsModifier(
-        (stream) -> isCompetition
-            ? stream.filter(auto -> auto.getName().startsWith("comp_"))
-            : stream);
+    autoPathChooser = AutoBuilder.buildAutoChooser();
 
     setupDashboard();
   }
@@ -62,7 +58,9 @@ public class RobotContainer {
             drivetrainSubsystem,
             driverController::getLeftY,
             driverController::getLeftX,
-            driverController::getRightX));
+            driverController::getRightX,
+            driverController.rightBumper()::getAsBoolean));
+            
     driverController.back().onTrue(new InstantCommand(() -> drivetrainSubsystem.resetGyro()));
     driverController.start().onTrue(new InstantCommand(() -> {
       drivetrainSubsystem.fieldRelative = !drivetrainSubsystem.fieldRelative;
@@ -87,7 +85,7 @@ public class RobotContainer {
     SmartDashboard.putData("elevator", elevatorSubsystem);
     SmartDashboard.putData("coralIntake", coralIntakeSubsystem);
     SmartDashboard.putData("algaeIntake", algaeIntakeSubsystem);
-    //SmartDashboard.putData("vision", visionSubsystem);
+    SmartDashboard.putData("vision", visionSubsystem);
 
     // Pathplanner Auto Path Chooser
     SmartDashboard.putData("Auto Chooser", autoPathChooser);
@@ -96,13 +94,20 @@ public class RobotContainer {
   public Command getAutoCommand() {
     return autoPathChooser.getSelected();
   }
-  // public Command updateRobotPoseCommand() {
-  //   return Commands.run(() -> {
-  //     if ( visionSubsystem.detectsAprilTag() ){
-  //       drivetrainSubsystem.poseEstimator.addVisionMeasurement(visionSubsystem.getRobotPose2d(), Timer.getFPGATimestamp());
-  //     }
-  //   },
-  //   drivetrainSubsystem,
-  //   visionSubsystem);
-  // }
+  public Command updateRobotPoseCommand() {
+    return Commands.run(() -> {
+      if ( visionSubsystem.detectsAprilTag() ){
+        drivetrainSubsystem.poseEstimator.addVisionMeasurement(visionSubsystem.getRobotPose2d(), Timer.getFPGATimestamp());
+      }
+    },
+    drivetrainSubsystem,
+    visionSubsystem);
+  }
+  public static Elevator getElevator() {
+    return elevatorSubsystem;
+  }
+
+  public static CoralIntake getCoralIntake() {
+    return coralIntakeSubsystem;
+  }
 }
